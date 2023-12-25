@@ -76,7 +76,7 @@
     if (result) {
       let obj = {};
       result.records.forEach((position) => {
-        obj[position['code']] = position['name'];
+        obj[position['id']] = position['name'];
       });
       positionInfo.value = obj;
     }
@@ -84,12 +84,6 @@
   queryPositionInfo();
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
   @import './index.less';
-
-  /*begin 兼容暗夜模式*/
-  .address-book{
-    background-color: @component-background !important;
-  }
-  /*end 兼容暗夜模式*/
 </style>

@@ -35,6 +35,7 @@
       v-model:value="state"
       :filterOption="handleFilterOption"
       :getPopupContainer="getPopupContainer"
+      :style="style"
       @change="handleChange"
     >
       <a-select-option v-if="showChooseOption" :value="null">请选择…</a-select-option>
@@ -80,6 +81,7 @@
         default: [],
         required: false,
       },
+      style: propTypes.any,
     },
     emits: ['options-change', 'change','update:value'],
     setup(props, { emit, refs }) {
@@ -176,15 +178,22 @@
       /** 单选radio的值变化事件 */
       function handleChangeRadio(e) {
         state.value = e?.target?.value ?? e;
+        //update-begin---author:wangshuai ---date:20230504  for：【issues/506】JDictSelectTag 组件 type="radio" 没有返回值------------
+        emit('update:value',e?.target?.value ?? e)
+        //update-end---author:wangshuai ---date:20230504  for：【issues/506】JDictSelectTag 组件 type="radio" 没有返回值------------
       }
 
       /** 用于搜索下拉框中的内容 */
       function handleFilterOption(input, option) {
-        // 在 label 中搜索
-        let labelIf = option.children()[0]?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0;
-        if (labelIf) {
-          return true;
+        // update-begin--author:liaozhiyang---date:20230914---for：【QQYUN-6514】 配置的时候，Y轴不能输入多个字段了，控制台报错
+        if (typeof option.children === 'function') {
+          // 在 label 中搜索
+          let labelIf = option.children()[0]?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+          if (labelIf) {
+            return true;
+          }
         }
+        // update-end--author:liaozhiyang---date:20230914---for：【QQYUN-6514】 配置的时候，Y轴不能输入多个字段了，控制台报错
         // 在 value 中搜索
         return (option.value || '').toString().toLowerCase().indexOf(input.toLowerCase()) >= 0;
       }

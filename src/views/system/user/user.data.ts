@@ -89,13 +89,13 @@ export const searchFormSchema: FormSchema[] = [
     label: '账号',
     field: 'username',
     component: 'JInput',
-    colProps: { span: 6 },
+    //colProps: { span: 6 },
   },
   {
     label: '名字',
     field: 'realname',
     component: 'JInput',
-    colProps: { span: 6 },
+   //colProps: { span: 6 },
   },
   {
     label: '性别',
@@ -106,13 +106,13 @@ export const searchFormSchema: FormSchema[] = [
       placeholder: '请选择性别',
       stringToNumber: true,
     },
-    colProps: { span: 6 },
+    //colProps: { span: 6 },
   },
   {
     label: '手机号码',
     field: 'phone',
     component: 'Input',
-    colProps: { span: 6 },
+    //colProps: { span: 6 },
   },
   {
     label: '用户状态',
@@ -123,7 +123,7 @@ export const searchFormSchema: FormSchema[] = [
       placeholder: '请选择状态',
       stringToNumber: true,
     },
-    colProps: { span: 6 },
+   //colProps: { span: 6 },
   },
 ];
 
@@ -171,7 +171,7 @@ export const formSchema: FormSchema[] = [
     field: 'workNo',
     required: true,
     component: 'Input',
-    dynamicRules: ({ model, schema }) => rules.duplicateCheckRule('sys_user', 'work_no', model, schema, true),
+    dynamicRules: ({ model, schema }) => ({ ...rules.duplicateCheckRule('sys_user', 'work_no', model, schema, true), trigger: 'blur' }),
   },
   {
     label: '职务',
@@ -179,7 +179,6 @@ export const formSchema: FormSchema[] = [
     required: false,
     component: 'JSelectPosition',
     componentProps: {
-      rowKey: 'code',
       labelKey: 'name',
     },
   },
@@ -192,6 +191,7 @@ export const formSchema: FormSchema[] = [
       api: getAllRolesListNoByTenant,
       labelField: 'roleName',
       valueField: 'id',
+      immediate: false,
     },
   },
   {
@@ -229,6 +229,7 @@ export const formSchema: FormSchema[] = [
       numberToString: true,
       labelField: 'name',
       valueField: 'id',
+      immediate: false,
     },
   },
   {
@@ -286,8 +287,8 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
       return [
-        { ...rules.duplicateCheckRule('sys_user', 'email', model, schema, true)[0] },
-        { ...rules.rule('email', false)[0] },
+        { ...rules.duplicateCheckRule('sys_user', 'email', model, schema, true)[0], trigger: 'blur' },
+        { ...rules.rule('email', false)[0], trigger: 'blur' },
       ];
     },
   },
@@ -297,8 +298,8 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
     dynamicRules: ({ model, schema }) => {
       return [
-        { ...rules.duplicateCheckRule('sys_user', 'phone', model, schema, true)[0] },
-        { pattern: /^1[3456789]\d{9}$/, message: '手机号码格式有误' },
+        { ...rules.duplicateCheckRule('sys_user', 'phone', model, schema, true)[0], trigger: 'blur' },
+        { pattern: /^1[3456789]\d{9}$/, message: '手机号码格式有误', trigger: 'blur' },
       ];
     },
   },
@@ -386,6 +387,7 @@ export const formAgentSchema: FormSchema[] = [
       showTime: true,
       valueFormat: 'YYYY-MM-DD HH:mm:ss',
       placeholder: '请选择代理开始时间',
+      getPopupContainer: () => document.body,
     },
   },
   {
@@ -397,6 +399,7 @@ export const formAgentSchema: FormSchema[] = [
       showTime: true,
       valueFormat: 'YYYY-MM-DD HH:mm:ss',
       placeholder: '请选择代理结束时间',
+      getPopupContainer: () => document.body,
     },
   },
   {
